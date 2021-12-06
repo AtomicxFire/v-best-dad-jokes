@@ -18,7 +18,7 @@
 
 <script>
 import Logo from "~/components/Logo.vue";
-import { mapActions } from 'vuex'
+import axios from 'axios'
 import { mapState } from 'vuex'
 
 export default {
@@ -36,18 +36,14 @@ export default {
       ]
     };
   },
+  async asyncData({ store }) {
+    const response = await axios.get(`http://localhost:3001/posts`)
+    store.commit('posts/setPosts',  response.data)
+  },
   computed: {
     ...mapState('posts', [
       'all'
     ]),
-  },
-  created() {
-    if (!this.all.length) this.getPosts()
-  },
-  methods: {
-    ...mapActions({
-      getPosts: 'posts/getPosts'
-    })
   }
 };
 </script>
