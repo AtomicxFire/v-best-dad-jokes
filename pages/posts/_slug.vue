@@ -8,8 +8,8 @@
       <h3>
         <h3>Jokes you might enjoy</h3>
         <ul>
-          <li :key="related.id" v-for="related in relatedPosts">
-            <nuxt-link :to="{name: 'posts-id', params: {id: related.id}}">{{related.title}}</nuxt-link>
+          <li :key="related.slug" v-for="related in relatedPosts">
+            <nuxt-link :to="{name: 'posts-slug', params: {slug: related.slug}}">{{related.title}}</nuxt-link>
           </li>
         </ul>
       </h3>
@@ -21,15 +21,27 @@
 export default {
   data() {
     return {
-      id: this.$route.params.id
+      slug: this.$route.params.slug
     };
+  },
+  head() {
+    return {
+      title: 'Post page',
+      meta: [
+        {
+          hid: this.post.id,
+          name: this.post.title,
+          content: this.post.content
+        }
+      ]
+    }
   },
   computed: {
     post() {
-      return this.$store.state.posts.all.find(post => post.id === this.id);
+      return this.$store.state.posts.all.find(post => post.slug === this.slug);
     },
     relatedPosts() {
-      return this.$store.state.posts.all.filter(post => post.id !== this.id);
+      return this.$store.state.posts.all.filter(post => post.slug !== this.slug);
     }
   }
 };

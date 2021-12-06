@@ -6,9 +6,9 @@
       <h2 class="subtitle">That Are So Bad And So Funny!</h2>
       <div class="links">
         <nuxt-link
-          :key="post.id"
+          :key="post.slug"
           v-for="post in all"
-          :to="{name: 'posts-id', params: {id: post.id}}"
+          :to="{name: 'posts-slug', params: {slug: post.slug}}"
           class="button--grey"
         >{{post.title}}</nuxt-link>
       </div>
