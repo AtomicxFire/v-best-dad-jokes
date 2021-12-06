@@ -7,7 +7,7 @@
       <div class="links">
         <nuxt-link
           :key="post.id"
-          v-for="post in posts"
+          v-for="post in all"
           :to="{name: 'posts-id', params: {id: post.id}}"
           class="button--grey"
         >{{post.title}}</nuxt-link>
@@ -18,6 +18,8 @@
 
 <script>
 import Logo from "~/components/Logo.vue";
+import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -35,9 +37,17 @@ export default {
     };
   },
   computed: {
-    posts() {
-      return this.$store.state.posts.all;
-    }
+    ...mapState('posts', [
+      'all'
+    ]),
+  },
+  created() {
+    if (!this.all.length) this.getPosts()
+  },
+  methods: {
+    ...mapActions({
+      getPosts: 'posts/getPosts'
+    })
   }
 };
 </script>
